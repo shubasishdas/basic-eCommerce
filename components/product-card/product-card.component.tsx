@@ -4,7 +4,7 @@ import Link from "next/link";
 const ProductCard = ({ product }) => {
   const { title, product_img, price, discount } = product;
   return (
-    <Link key={product.id} href={`products/${product.title}`}>
+    <Link key={product.id} href={`products/${product.id}`}>
       <Card
         style={{
           flexBasis: "20%",
