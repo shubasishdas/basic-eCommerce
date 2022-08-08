@@ -1,8 +1,9 @@
 import { useContext, useEffect } from "react";
-import { Container, Header, Input, Icon, Grid } from "semantic-ui-react";
+import { Container, Header, Input, Icon, Grid, Card } from "semantic-ui-react";
 import { categoriesContext } from "../../context/categories.context";
 import CategoryList from "../../pages/api/dataset/categories.json";
 import { get } from "../../pages/api/api";
+import Link from "next/link";
 
 const Categories = () => {
   const { categories, setCategories } = useContext(categoriesContext);
@@ -20,11 +21,28 @@ const Categories = () => {
   console.log({ categories });
 
   return (
-    <Container>
+    <Container style={{ marginTop: 50 }}>
       <Header as="h2">Categories</Header>
-      <Grid>
+      <Grid style={{ display: "flex", gap: 20 }}>
         {categories.map((category) => {
-          return <Container key={category.id}>{category.name}</Container>;
+          return (
+            <Link key={category.id} href={`categories/${category.name}`}>
+              <Card
+                style={{
+                  flexBasis: "15%",
+                  flexGrow: 1,
+                  height: "10rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 20,
+                  marginBottom: 20,
+                }}
+              >
+                <Card.Header>{category.name}</Card.Header>
+              </Card>
+            </Link>
+          );
         })}
       </Grid>
     </Container>
