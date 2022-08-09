@@ -19,14 +19,11 @@ const mockApi = async (endpoint: string) => {
     default:
       return;
   }
-
-  // return JSON.parse("{ a: 5 }");
 };
 
 export const get = async (endpoint: string) => {
   const response = await mockApi(endpoint);
   console.log({ response, endpoint });
 
-  // return response.json();
   return response;
 };

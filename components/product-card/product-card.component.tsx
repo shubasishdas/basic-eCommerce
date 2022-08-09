@@ -4,12 +4,12 @@ import Link from "next/link";
 const ProductCard = ({ product }) => {
   const { title, product_img, price, discount } = product;
   return (
-    <Link key={product.id} href={`products/${product.id}`}>
+    <Link key={product.id} href={`/products/${product.id}`}>
       <Card
         style={{
           flexBasis: "20%",
           height: "20rem",
-          flexGrow: 1,
+          // flexGrow: 1,
           margin: 20,
           cursor: "pointer",
         }}

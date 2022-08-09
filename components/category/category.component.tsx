@@ -26,7 +26,7 @@ const Categories = () => {
       <Grid style={{ display: "flex", gap: 20 }}>
         {categories.map((category) => {
           return (
-            <Link key={category.id} href={`categories/${category.name}`}>
+            <Link key={category.id} href={`categories/${category.id}`}>
               <Card
                 style={{
                   flexBasis: "15%",
