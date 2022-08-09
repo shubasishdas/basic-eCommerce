@@ -18,7 +18,7 @@ const SearchResult = ({ textSearch }) => {
     product.title.includes(textSearch)
   );
 
-  console.log({ filteredCategories });
+  // console.log({ filteredCategories });
 
   return (
     <Container
@@ -44,7 +44,7 @@ const SearchResult = ({ textSearch }) => {
           {filteredCategories.map((category) => {
             return (
               <Grid key={category.id}>
-                <Link href={`/categories/${category.name}`}>
+                <Link href={`/categories/${category.id}`}>
                   <Container
                     style={{ height: "fit-content", cursor: "pointer" }}
                   >
@@ -67,10 +67,10 @@ const SearchResult = ({ textSearch }) => {
           }}
         >
           {filteredProducts.map((product) => {
-            const { product_img, title, price } = product;
+            const { id, product_img, title, price } = product;
             return (
-              <Grid key={product.id}>
-                <Link href={`/products/${title}`}>
+              <Grid key={id}>
+                <Link href={`/products/${id}`}>
                   <Grid
                     style={{
                       display: "flex",

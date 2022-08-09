@@ -1,40 +1,41 @@
-import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useContext, useState, useEffect } from "react";
+import { productsContext } from "../../context/products.context";
 import {
   Container,
-  Header,
-  Input,
-  Icon,
+  Card,
+  Image,
   Grid,
+  Header,
+  Rating,
+  Button,
+  Icon,
+  Divider,
   Pagination,
 } from "semantic-ui-react";
-import { productsContext } from "../../context/products.context";
-import { get } from "../../pages/api/api";
-import ProductCard from "../product-card/product-card.component";
-import Link from "next/link";
+import { cartContext } from "../../context/cart.context";
 import { customersContext } from "../../context/customers.context";
+import { categoriesContext } from "../../context/categories.context";
+import ProductCard from "../../components/product-card/product-card.component";
+import Hero from "../../components/hero/hero.component";
 
-const Products = () => {
-  const { products, setProducts } = useContext(productsContext);
-  const { customers, setCustomers } = useContext(customersContext);
+const CategoryComponent = () => {
+  const router = useRouter();
+  const { category: categoryId } = router.query;
+
   const [productsOnPage, setProductsOnPage] = useState([]);
+  const { products } = useContext(productsContext);
+
+  const filteredProductsByCategory = products.filter((product) =>
+    product.categories.includes(Number(categoryId))
+  );
+
   const defaultActivePage = 1;
   const productsPerPage = 20;
 
   useEffect(() => {
-    const getProductData = async () => {
-      const response = await get("products");
-      setProducts(response);
-      productsOnActivePage(response, defaultActivePage);
-    };
-
-    const getCustomerData = async () => {
-      const response = await get("customers");
-      setCustomers(response);
-    };
-
-    getProductData();
-    getCustomerData();
-  }, []);
+    productsOnActivePage(filteredProductsByCategory, defaultActivePage);
+  }, [categoryId]);
 
   const productsOnActivePage = (products, activePage) => {
     const filteredProducts = products.filter(
@@ -46,16 +47,13 @@ const Products = () => {
   };
 
   const handlePageChange = (e, pageInfo) => {
-    console.log("page changed");
-
     const activePage = Number(pageInfo.activePage);
-    productsOnActivePage(products, activePage);
+    productsOnActivePage(filteredProductsByCategory, activePage);
   };
-
-  console.log({ productsOnPage });
 
   return (
     <Container style={{ marginTop: 50 }}>
+      <Hero />
       <Header as="h2">Products</Header>
       <Grid style={{ display: "flex", gap: 15, width: "fit-content" }}>
         {productsOnPage.map((product) => {
@@ -89,4 +87,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default CategoryComponent;
