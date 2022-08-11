@@ -1,0 +1,12 @@
+:global(#app) {
+  .footer {
+    &_container {
+      width: 100vw;
+      padding: 7rem;
+      background: #6c66e5;
+      color: #fff;
+      // position: absolute;
+      // bottom: 0px;
+    }
+  }
+}

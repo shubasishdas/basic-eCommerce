@@ -21,9 +21,9 @@ const mockApi = async (endpoint: string) => {
   }
 };
 
-export const get = async (endpoint: string) => {
-  const response = await mockApi(endpoint);
-  console.log({ response, endpoint });
+// export const get = async (endpoint: string) => {
+//   const response = await mockApi(endpoint);
+//   console.log({ response, endpoint });
 
-  return response;
-};
+//   return response;
+// };

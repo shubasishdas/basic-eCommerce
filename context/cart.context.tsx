@@ -10,7 +10,9 @@ export const cartContext = createContext({
 });
 
 const addCartItem = (cartItems, productToCart, isClickedOnMinus) => {
-  const existingCartItem = cartItems.find(
+  console.log({ cartItems }, "cartItems222");
+
+  const existingCartItem = cartItems?.find(
     (item) => item.id === productToCart.id
   );
 
@@ -27,6 +29,7 @@ const addCartItem = (cartItems, productToCart, isClickedOnMinus) => {
     );
   }
 
+  // if (!cartItems) return;
   return [...cartItems, { ...productToCart, quantity: 1 }];
 };
 
@@ -41,7 +44,7 @@ export const CartContextProvider = ({ children }) => {
 
   useEffect(() => {
     setCartCount(() => {
-      return cartItems.reduce((sum, current) => sum + current.quantity, 0);
+      return cartItems?.reduce((sum, current) => sum + current.quantity, 0);
     });
   }, [cartItems]);
 

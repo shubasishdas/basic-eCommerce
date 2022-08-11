@@ -18,6 +18,8 @@ import { customersContext } from "../../context/customers.context";
 import { categoriesContext } from "../../context/categories.context";
 import ProductCard from "../../components/product-card/product-card.component";
 import Hero from "../../components/hero/hero.component";
+import Footer from "../../components/footer/footer.component";
+// import styles from "./category.module.scss";
 
 const CategoryComponent = () => {
   const router = useRouter();
@@ -26,7 +28,7 @@ const CategoryComponent = () => {
   const [productsOnPage, setProductsOnPage] = useState([]);
   const { products } = useContext(productsContext);
 
-  const filteredProductsByCategory = products.filter((product) =>
+  const filteredProductsByCategory = products?.filter((product) =>
     product.categories.includes(Number(categoryId))
   );
 
@@ -38,10 +40,13 @@ const CategoryComponent = () => {
   }, [categoryId]);
 
   const productsOnActivePage = (products, activePage) => {
-    const filteredProducts = products.filter(
+    const filteredProducts = products?.filter(
       (product) =>
-        activePage * productsPerPage < product.id &&
-        product.id <= (activePage + 1) * productsPerPage
+        // activePage * productsPerPage < product.id &&
+        // product.id <= (activePage + 1) * productsPerPage
+
+        activePage * productsPerPage >= product.id &&
+        (activePage - 1) * productsPerPage < product.id
     );
     setProductsOnPage(filteredProducts);
   };
@@ -51,15 +56,34 @@ const CategoryComponent = () => {
     productsOnActivePage(filteredProductsByCategory, activePage);
   };
 
+  // console.log({ heroComponent: <Hero /> });
+
   return (
-    <Container style={{ marginTop: 50 }}>
+    <Container
+      id="app"
+      style={{
+        width: "100vw",
+        display: "flex",
+        flexDirection: "column",
+        gap: 20,
+        position: "relative",
+      }}
+    >
       <Hero />
-      <Header as="h2">Products</Header>
-      <Grid style={{ display: "flex", gap: 15, width: "fit-content" }}>
+      <Container>
+        <Header as="h2">Products</Header>
+        {/* <Grid style={{ display: "flex", gap: 15, width: "fit-content" }}>
         {productsOnPage.map((product) => {
           return <ProductCard key={product.id} product={product} />;
         })}
-      </Grid>
+      </Grid> */}
+
+        <Card.Group itemsPerRow={4}>
+          {productsOnPage.map((product) => {
+            return <ProductCard key={product.id} product={product} />;
+          })}
+        </Card.Group>
+      </Container>
 
       <Container
         style={{
@@ -79,10 +103,13 @@ const CategoryComponent = () => {
           lastItem={{ content: <Icon name="angle double right" />, icon: true }}
           prevItem={{ content: <Icon name="angle left" />, icon: true }}
           nextItem={{ content: <Icon name="angle right" />, icon: true }}
-          totalPages={products.length / productsPerPage}
+          totalPages={
+            Math.floor(filteredProductsByCategory?.length / productsPerPage) + 1
+          }
           onPageChange={handlePageChange}
         />
       </Container>
+      <Footer />
     </Container>
   );
 };

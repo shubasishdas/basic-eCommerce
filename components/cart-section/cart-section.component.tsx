@@ -1,32 +1,8 @@
-import { useRouter } from "next/router";
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { Button, Modal } from "semantic-ui-react";
-import { cartContext } from "../../context/cart.context";
 
 const CheckoutButton = ({ subTotal }) => {
   const [open, setOpen] = React.useState(false);
-  const { cartItems, setCartItems } = useContext(cartContext);
-
-  const router = useRouter();
-
-  // useEffect(() => {
-  //   if (open) {
-  //     setCartItems([]);
-  //     router.push("/");
-  //   }
-  // }, [open, router, setCartItems]);
-
-  const handleFunc = () => {
-    setOpen(false);
-    setCartItems([]);
-  };
-
-  const handleCheckout = async () => {
-    // handleFunc();
-    setOpen(false);
-    setCartItems([]);
-    router.push("/");
-  };
 
   return (
     <Modal
@@ -36,7 +12,13 @@ const CheckoutButton = ({ subTotal }) => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       trigger={
-        <Button fluid size="big" color="violet" disabled={subTotal <= 0}>
+        <Button
+          style={{ position: "absolute", bottom: 0, left: "0px" }}
+          fluid
+          size="big"
+          color="violet"
+          disabled={subTotal <= 0}
+        >
           Checkout
         </Button>
       }
@@ -48,7 +30,7 @@ const CheckoutButton = ({ subTotal }) => {
         <Modal.Description>Your order has been placed</Modal.Description>
       </Modal.Content>
       <Modal.Actions>
-        <Button color="violet" onClick={handleCheckout}>
+        <Button color="violet" onClick={() => setOpen(false)}>
           OK
         </Button>
       </Modal.Actions>

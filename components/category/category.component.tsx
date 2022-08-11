@@ -1,16 +1,17 @@
 import { useContext, useEffect } from "react";
-import { Container, Header, Input, Icon, Grid, Card } from "semantic-ui-react";
+import { Container, Header, Card } from "semantic-ui-react";
 import { categoriesContext } from "../../context/categories.context";
-import CategoryList from "../../pages/api/dataset/categories.json";
 import { get } from "../../pages/api/api";
 import Link from "next/link";
+import styles from "./category.module.scss";
 
 const Categories = () => {
   const { categories, setCategories } = useContext(categoriesContext);
 
   useEffect(() => {
     const getCategoryData = async () => {
-      const response = await get("categories");
+      const data = await fetch("api/mock/categories");
+      const { response } = await data.json();
 
       setCategories(response.categories);
     };
@@ -18,33 +19,26 @@ const Categories = () => {
     getCategoryData();
   }, []);
 
-  console.log({ categories });
-
   return (
-    <Container style={{ marginTop: 50 }}>
-      <Header as="h2">Categories</Header>
-      <Grid style={{ display: "flex", gap: 20 }}>
-        {categories.map((category) => {
+    <Container>
+      <Header as="h2" className={styles.header}>
+        Categories
+      </Header>
+      <Card.Group itemsPerRow={5}>
+        {categories?.map((category) => {
           return (
             <Link key={category.id} href={`categories/${category.id}`}>
-              <Card
-                style={{
-                  flexBasis: "15%",
-                  flexGrow: 1,
-                  height: "10rem",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginTop: 20,
-                  marginBottom: 20,
-                }}
-              >
-                <Card.Header>{category.name}</Card.Header>
+              <Card className={styles.card}>
+                <Card.Content className={styles.content}>
+                  <Card.Header className={styles.header}>
+                    {category.name}
+                  </Card.Header>
+                </Card.Content>
               </Card>
             </Link>
           );
         })}
-      </Grid>
+      </Card.Group>
     </Container>
   );
 };
