@@ -1,0 +1,31 @@
+:global(#app) {
+  .hero {
+    &_wrapper {
+      width: 100vw;
+      height: 20vh;
+      background: #6c66e5;
+      position: sticky;
+      top: 0px;
+      z-index: 9999;
+    }
+    &_container {
+      margin: 0;
+      padding: 0px;
+      height: 100%;
+    }
+    &_header {
+      width: fit-content;
+      color: #fff;
+      cursor: pointer;
+    }
+    &_cart {
+      width: fit-content;
+    }
+  }
+}
+
+// heroStyles: {
+//   hero_container: 'hero_hero_container__RjM6y',
+//   hero_header: 'hero_hero_header__HyXxh',
+//   hero_cart: 'hero_hero_cart__m1cFm'
+// }

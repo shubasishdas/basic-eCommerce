@@ -1,14 +1,13 @@
 import { useContext } from "react";
-import { Container, Grid, Header, Image } from "semantic-ui-react";
+import { Container, Divider, Grid, Image } from "semantic-ui-react";
 import { categoriesContext } from "../../context/categories.context";
 import { productsContext } from "../../context/products.context";
 import Link from "next/link";
+import styles from "./search-result.module.scss";
 
 const SearchResult = ({ textSearch }) => {
   const { categories } = useContext(categoriesContext);
   const { products } = useContext(productsContext);
-
-  console.log({ categories, products });
 
   const filteredCategories = categories.filter((category) =>
     category.name.includes(textSearch)
@@ -18,80 +17,49 @@ const SearchResult = ({ textSearch }) => {
     product.title.includes(textSearch)
   );
 
-  // console.log({ filteredCategories });
+  console.log({ styles });
 
   return (
-    <Container
-      style={{
-        position: "absolute",
-        width: "30rem",
-        height: "30rem",
-        background: "aliceBlue",
-        boxShadow: "0px 2px 6px -2px rgba(0,0,0,0.6)",
-        overflowY: "auto",
-      }}
-    >
-      <Grid style={{ padding: 20 }}>
-        <h3>Categories</h3>
-        <Grid
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 10,
-            marginTop: 5,
-          }}
-        >
-          {filteredCategories.map((category) => {
-            return (
-              <Grid key={category.id}>
-                <Link href={`/categories/${category.id}`}>
-                  <Container
-                    style={{ height: "fit-content", cursor: "pointer" }}
-                  >
+    <Container className={styles.wrapper}>
+      <Container className={styles.container}>
+        <Container className={styles.category_wrapper}>
+          <h3>Categories</h3>
+          <Container className={styles.category_wrapper_container}>
+            {filteredCategories.map((category) => {
+              return (
+                <Link href={`/categories/${category.id}`} key={category.id}>
+                  <Container className={styles.category_list}>
                     {category.name}
                   </Container>
                 </Link>
-              </Grid>
-            );
-          })}
-        </Grid>
-      </Grid>
-      <Grid style={{ padding: 20 }}>
-        <h3>Products</h3>
-        <Container
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 20,
-            marginTop: 5,
-          }}
-        >
-          {filteredProducts.map((product) => {
-            const { id, product_img, title, price } = product;
-            return (
-              <Grid key={id}>
-                <Link href={`/products/${id}`}>
-                  <Grid
-                    style={{
-                      display: "flex",
-                      height: "fit-content",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <Grid style={{ width: 100, height: 100 }}>
-                      <Image src={product_img} alt={title} />
-                    </Grid>
-                    <Grid style={{ display: "flex", flexDirection: "column" }}>
-                      <Grid>{title}</Grid>
-                      <Grid>{price}</Grid>
-                    </Grid>
-                  </Grid>
-                </Link>
-              </Grid>
-            );
-          })}
+              );
+            })}
+          </Container>
         </Container>
-      </Grid>
+
+        <Divider />
+
+        <Container className={styles.products_wrapper}>
+          <h3>Products</h3>
+          <Container className={styles.products_wrapper_container}>
+            {filteredProducts.map((product) => {
+              const { id, product_img, title, price } = product;
+              return (
+                <Link key={id} href={`/products/${id}`}>
+                  <Container className={styles.products_list}>
+                    <Image size="small" src={product_img} alt={title} />
+
+                    <Container className={styles.product_info}>
+                      <p>{title}</p>
+                      <p>BDT {price}</p>
+                    </Container>
+                  </Container>
+                </Link>
+              );
+            })}
+          </Container>
+        </Container>
+      </Container>
     </Container>
   );
 };

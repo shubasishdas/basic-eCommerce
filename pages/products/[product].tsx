@@ -16,32 +16,13 @@ import {
 import { cartContext } from "../../context/cart.context";
 import { customersContext } from "../../context/customers.context";
 import Hero from "../../components/hero/hero.component";
+import Footer from "../../components/footer/footer.component";
+import Link from "next/link";
 
-const ProductComponent = () => {
-  const router = useRouter();
-  const { products } = useContext(productsContext);
-  const { customers } = useContext(customersContext);
+export const countRatingPerProduct = (product) => {
+  const totalReviews = product?.reviews.length;
 
-  const { addItemToCart, cartItems } = useContext(cartContext);
-  const { product: productId } = router.query;
-
-  const selectedProduct = products.find(
-    (product) => product.id === Number(productId)
-  );
-
-  const {
-    title,
-    description,
-    price,
-    product_img,
-    discount,
-    categories,
-    reviews,
-  } = selectedProduct ?? {};
-
-  const totalReviews = selectedProduct?.reviews.length;
-
-  const sumOfRatings = selectedProduct?.reviews.reduce((prev, current) => {
+  const sumOfRatings = product?.reviews.reduce((prev, current) => {
     return prev + current.rating;
   }, 0);
 
@@ -55,13 +36,43 @@ const ProductComponent = () => {
     roundedRating = Math.floor(averageOfRating) + 1;
   }
 
+  return { roundedRating, totalReviews };
+};
+
+const ProductComponent = () => {
+  const router = useRouter();
+  const { products } = useContext(productsContext);
+  const { customers } = useContext(customersContext);
+
+  const { addItemToCart, cartItems } = useContext(cartContext);
+  const { product: productId } = router.query;
+
+  const selectedProduct = products?.find(
+    (product) => product.id === Number(productId)
+  );
+
+  console.log({ products, selectedProduct });
+
+  const {
+    title,
+    description,
+    price,
+    product_img,
+    discount,
+    categories,
+    reviews,
+  } = selectedProduct ?? {};
+
+  const { roundedRating, totalReviews } =
+    countRatingPerProduct(selectedProduct);
+
   const handleOrderCount = (e) => {
     const isClickedOnMinus = e.target.className.includes("minus");
 
     addItemToCart(selectedProduct, isClickedOnMinus);
   };
 
-  const orderedProduct = cartItems.filter(
+  const orderedProduct = cartItems?.filter(
     (item) => item.id === selectedProduct?.id
   )[0];
 
@@ -73,13 +84,6 @@ const ProductComponent = () => {
       (review) => review.rating === ratingNumber
     );
     <Grid>{totalReviews} Ratings</Grid>;
-    console.log({
-      filteredReviews: filteredReviews?.length,
-      ratingNumber,
-      totalReviews,
-
-      percentage: filteredReviews?.length / totalReviews,
-    });
 
     return filteredReviews?.length;
   };
@@ -113,10 +117,19 @@ const ProductComponent = () => {
     .flatMap((data) => data);
 
   return (
-    <Container>
+    <Container
+      id="app"
+      style={{
+        width: "100vw",
+        display: "flex",
+        flexDirection: "column",
+        gap: 20,
+        position: "relative",
+      }}
+    >
       <Hero />
-      <Container style={{ display: "flex", marginTop: 20, gap: 20 }}>
-        <Card style={{ flex: 1 }}>
+      <Container style={{ display: "flex", gap: 20 }}>
+        <Card style={{ flex: 1, margin: 0 }}>
           <Image src={product_img} alt={title} />
         </Card>
         <Card
@@ -125,6 +138,8 @@ const ProductComponent = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
+            margin: 0,
+            padding: "2rem",
           }}
         >
           <Container>
@@ -138,10 +153,13 @@ const ProductComponent = () => {
               disabled
             />
           </Container>
-          <Container>Tk.{price}</Container>
-          <Container>
+          <Container style={{ display: "flex", gap: 10 }}>
+            BDT <span style={{ textDecoration: "line-through" }}>{price}</span>
+            {price - discount}
+          </Container>
+          <Container style={{ display: "flex", gap: 10 }}>
             {quantity ? (
-              <Button.Group basic>
+              <Button.Group style={{ width: "200px" }} basic>
                 <Button
                   className="minus"
                   content={<Icon name="minus" />}
@@ -155,17 +173,31 @@ const ProductComponent = () => {
                 ></Button>
               </Button.Group>
             ) : (
-              <Button positive onClick={handleOrderCount}>
+              <Button
+                style={{ width: "200px", background: "#6435c9" }}
+                positive
+                onClick={handleOrderCount}
+              >
                 Add to Cart
               </Button>
             )}
-            <Button positive>Buy Now</Button>
+            {quantity ? (
+              <Link href="/cart">
+                <Button style={{ background: "#6435c9" }} positive>
+                  Buy Now
+                </Button>
+              </Link>
+            ) : (
+              ""
+            )}
           </Container>
         </Card>
       </Container>
       <Container>
         <Header>Ratings & Reviews</Header>
-        <Grid style={{ marginTop: 20 }}>
+        <Container
+          style={{ display: "flex", flexDirection: "row", gap: "5rem" }}
+        >
           <Grid
             style={{
               display: "flex",
@@ -173,27 +205,30 @@ const ProductComponent = () => {
               width: "fit-content",
               margin: 0,
               gap: 20,
+              padding: "2rem",
             }}
           >
-            <Header style={{ margin: 0 }}>
+            <Header style={{ margin: 0, padding: 0 }}>
               {roundedRating}/{maxRating}
             </Header>
             <Rating
-              style={{ margin: 0 }}
+              style={{ margin: 0, padding: 0 }}
               maxRating={maxRating}
               defaultRating={roundedRating}
               icon="star"
               size="large"
               disabled
             />
-            <Grid style={{ margin: 0 }}>{totalReviews} Ratings</Grid>
+            <Grid style={{ margin: 0, padding: 0 }}>
+              {totalReviews} Ratings
+            </Grid>
           </Grid>
-          <Grid
+          <Container
             style={{
               display: "flex",
               flexDirection: "column",
               gap: 15,
-              marginLeft: 200,
+              width: "fit-content",
             }}
           >
             {Array(maxRating + 1)
@@ -212,7 +247,16 @@ const ProductComponent = () => {
                       disabled
                     />
                     <Progress
-                      style={{ width: "10rem", margin: 0 }}
+                      style={{
+                        width: "10rem",
+                        margin: 0,
+                        background: "grey",
+                      }}
+                      color={
+                        getNumberOfEachRating(maxRating - index) / totalReviews
+                          ? "green"
+                          : "grey"
+                      }
                       percent={
                         (getNumberOfEachRating(maxRating - index) /
                           totalReviews) *
@@ -226,8 +270,8 @@ const ProductComponent = () => {
                   </Grid>
                 );
               })}
-          </Grid>
-        </Grid>
+          </Container>
+        </Container>
 
         <Divider />
         <Container>
@@ -237,10 +281,10 @@ const ProductComponent = () => {
               display: "flex",
               flexDirection: "column",
               gap: 20,
-              marginTop: 30,
+              // marginTop: 30,
+              padding: "2rem",
             }}
           >
-            {/* {selectedProduct?.reviews.map((review) => { */}
             {customersReviews?.map((review) => {
               const { id, rating, comment, name, avatar } = review;
               return (
@@ -258,7 +302,12 @@ const ProductComponent = () => {
                   />
 
                   <Container>
-                    <Image src={avatar} alt={name} /> {name}
+                    <Image
+                      src={avatar}
+                      alt={name}
+                      style={{ borderRadius: "25px" }}
+                    />{" "}
+                    {name}
                   </Container>
                   <Container>{comment}</Container>
                   <Divider />
@@ -268,6 +317,7 @@ const ProductComponent = () => {
           </Grid>
         </Container>
       </Container>
+      <Footer />
     </Container>
   );
 };

@@ -1,12 +1,8 @@
-import { Container, Header, Input, Icon, Grid } from "semantic-ui-react";
+import { Container } from "semantic-ui-react";
+import styles from "./analyticBanner.module.scss";
 
 const AnalyticBanner = () => {
-  return (
-    <Container style={{ marginTop: 50 }}>
-      {/* <Header as="h2">Analytics Banner</Header> */}
-      <Container style={{ height: 500, background: "lavender" }}></Container>
-    </Container>
-  );
+  return <Container className={styles.banner_container}></Container>;
 };
 
 export default AnalyticBanner;

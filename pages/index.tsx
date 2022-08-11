@@ -1,20 +1,39 @@
 import type { NextPage } from "next";
 import "semantic-ui-css/semantic.min.css";
-import { Container, Header, Input, Icon, Grid } from "semantic-ui-react";
+import {
+  Container,
+  Header,
+  Input,
+  Icon,
+  Grid,
+  Divider,
+} from "semantic-ui-react";
 import Categories from "../components/category/category.component";
 import Products from "../components/products/products.component";
 import AnalyticBanner from "../components/analyticBanner/analyticBanner.component";
 import Hero from "../components/hero/hero.component";
+import Footer from "../components/footer/footer.component";
 
 const Home: NextPage = () => {
   return (
-    <Container style={{ marginTop: 50 }}>
+    <Container
+      id="app"
+      style={{
+        width: "100vw",
+        display: "flex",
+        flexDirection: "column",
+        gap: 15,
+        position: "relative",
+      }}
+    >
       <Hero />
-      <Grid columns={1}>
-        <AnalyticBanner />
-        <Categories />
-        <Products />
-      </Grid>
+      <AnalyticBanner />
+      <Categories />
+      <Container>
+        <Divider />
+      </Container>
+      <Products />
+      <Footer />
     </Container>
   );
 };

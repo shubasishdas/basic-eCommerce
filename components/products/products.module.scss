@@ -1,0 +1,24 @@
+:global(#app) {
+  .header {
+    &_section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15;
+      padding-bottom: 15px;
+    }
+    &_title {
+      margin: 0px;
+      padding: 0px;
+    }
+    &_filter {
+      gap: 50px;
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 30px;
+  }
+}

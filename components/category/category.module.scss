@@ -1,0 +1,24 @@
+:global(#app) {
+  .header {
+    margin: 0px;
+    padding-bottom: 15px;
+  }
+  .card {
+    background: rgb(175, 180, 255);
+    :hover {
+      background: #5829bb;
+    }
+
+    .header,
+    .content {
+      color: #fff;
+    }
+
+    .content {
+      height: 10rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

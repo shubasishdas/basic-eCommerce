@@ -2,16 +2,18 @@ import { useContext, useEffect, useState } from "react";
 import {
   Container,
   Header,
-  Input,
   Icon,
   Grid,
   Pagination,
+  Card,
 } from "semantic-ui-react";
 import { productsContext } from "../../context/products.context";
 import { get } from "../../pages/api/api";
 import ProductCard from "../product-card/product-card.component";
-import Link from "next/link";
 import { customersContext } from "../../context/customers.context";
+import CategoryFilter from "../category-filter/category-filter.component";
+import RatingFilter from "../rating-filter/rating-filter.component";
+import styles from "./products.module.scss";
 
 const Products = () => {
   const { products, setProducts } = useContext(productsContext);
@@ -22,13 +24,17 @@ const Products = () => {
 
   useEffect(() => {
     const getProductData = async () => {
-      const response = await get("products");
+      const data = await fetch("api/mock/products");
+      const { response } = await data.json();
+
       setProducts(response);
       productsOnActivePage(response, defaultActivePage);
     };
 
     const getCustomerData = async () => {
-      const response = await get("customers");
+      const data = await fetch("api/mock/customers");
+      const { response } = await data.json();
+
       setCustomers(response);
     };
 
@@ -39,8 +45,11 @@ const Products = () => {
   const productsOnActivePage = (products, activePage) => {
     const filteredProducts = products.filter(
       (product) =>
-        activePage * productsPerPage < product.id &&
-        product.id <= (activePage + 1) * productsPerPage
+        // activePage * productsPerPage < product.id &&
+        // product.id <= (activePage + 1) * productsPerPage
+
+        activePage * productsPerPage >= product.id &&
+        (activePage - 1) * productsPerPage < product.id
     );
     setProductsOnPage(filteredProducts);
   };
@@ -55,22 +64,24 @@ const Products = () => {
   console.log({ productsOnPage });
 
   return (
-    <Container style={{ marginTop: 50 }}>
-      <Header as="h2">Products</Header>
-      <Grid style={{ display: "flex", gap: 15, width: "fit-content" }}>
+    <Container>
+      <Container className={styles.header_section}>
+        <Header as="h2" className={styles.header_title}>
+          Products
+        </Header>
+        <Grid className={styles.header_filter}>
+          <CategoryFilter />
+          <RatingFilter />
+        </Grid>
+      </Container>
+
+      <Card.Group itemsPerRow={4}>
         {productsOnPage.map((product) => {
           return <ProductCard key={product.id} product={product} />;
         })}
-      </Grid>
+      </Card.Group>
 
-      <Container
-        style={{
-          marginTop: 20,
-          marginBottom: 20,
-          display: "flex",
-          justifyContent: "flex-end",
-        }}
-      >
+      <Container className={styles.pagination}>
         <Pagination
           defaultActivePage={1}
           ellipsisItem={{
@@ -81,7 +92,7 @@ const Products = () => {
           lastItem={{ content: <Icon name="angle double right" />, icon: true }}
           prevItem={{ content: <Icon name="angle left" />, icon: true }}
           nextItem={{ content: <Icon name="angle right" />, icon: true }}
-          totalPages={products.length / productsPerPage}
+          totalPages={products?.length / productsPerPage}
           onPageChange={handlePageChange}
         />
       </Container>
