@@ -2,9 +2,10 @@
 
 ## For Front End
 
+1. Clone repo
 1. Run `cd basic-eCommerce` to access project folder
-2. Run `yarn`
-3. Run `yarn dev` to run the application
+1. Run `yarn`
+1. Run `yarn dev` to run the application
 
 ## Areas of improvements
 
