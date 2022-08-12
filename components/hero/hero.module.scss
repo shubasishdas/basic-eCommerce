@@ -13,6 +13,9 @@
       padding: 0px;
       height: 100%;
     }
+    &_grid_row {
+      padding: 15px;
+    }
     &_header {
       width: fit-content;
       color: #fff;
@@ -20,12 +23,10 @@
     }
     &_cart {
       width: fit-content;
+      display: flex;
+      flex-direction: row;
+      color: #fff;
+      font-weight: bold;
     }
   }
 }
-
-// heroStyles: {
-//   hero_container: 'hero_hero_container__RjM6y',
-//   hero_header: 'hero_hero_header__HyXxh',
-//   hero_cart: 'hero_hero_cart__m1cFm'
-// }

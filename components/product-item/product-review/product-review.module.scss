@@ -1,0 +1,65 @@
+:global(#app) {
+  .rating {
+    &_wrapper {
+      display: flex;
+      flex-direction: row;
+      gap: 5rem;
+    }
+    &_average {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+      margin: 0px;
+      gap: 20px;
+      padding: 2rem;
+    }
+    &_count {
+      margin: 0;
+      padding: 0px;
+    }
+    &_graph {
+      &_container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: fit-content;
+      }
+      &_item {
+        display: flex;
+        gap: 25px;
+        margin: 0px;
+      }
+      &_progress {
+        width: 10rem;
+        margin: 0px;
+        background: grey;
+      }
+    }
+  }
+
+  .product_reviews {
+    &_wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 20;
+      padding: 2rem;
+    }
+    &_item {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      &_rating {
+        width: fit-content;
+      }
+
+      &_image {
+        border-radius: 25px;
+      }
+
+      &_divider {
+        width: 80%;
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+.product {
+  &_card {
+    height: 22rem;
+    cursor: pointer;
+    &_component {
+      display: flex;
+      gap: 10px;
+    }
+  }
+}

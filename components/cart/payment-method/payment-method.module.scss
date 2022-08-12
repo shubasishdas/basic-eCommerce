@@ -1,0 +1,30 @@
+:global(#app) {
+  .wrapper {
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+  }
+  .title {
+    margin: 0;
+    padding: 0px;
+  }
+  .form {
+    &_wrapper {
+      padding: 20px 0px 20px 20px;
+    }
+  }
+
+  .card_info {
+    &_wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px 10px 20px 0px;
+    }
+  }
+  .clear_cart_button {
+    margin: 0px;
+    background: rgb(189, 70, 70);
+    color: #fff;
+  }
+}
