@@ -1,12 +1,19 @@
 import { useRouter } from "next/router";
 import { useContext, useState, useEffect, useCallback, useMemo } from "react";
 import { productsContext } from "../../context/products.context";
-import { Container, Card, Header, Icon, Pagination } from "semantic-ui-react";
+import {
+  Container,
+  Card,
+  Header,
+  Segment,
+  Dimmer,
+  Loader,
+  Image,
+} from "semantic-ui-react";
 import ProductCard from "../../components/product-card/product-card.component";
 import Hero from "../../components/hero/hero.component";
 import Footer from "../../components/footer/footer.component";
 import PaginationWrapper from "../../components/pagination/pagination-component";
-
 import styles from "./category.module.scss";
 
 const CategoryComponent = () => {
@@ -55,9 +62,23 @@ const CategoryComponent = () => {
       <Container>
         <Header as="h2">Products</Header>
         <Card.Group itemsPerRow={4}>
-          {productsOnPage.map((product) => {
-            return <ProductCard key={product.id} product={product} />;
-          })}
+          {productsOnPage.length ? (
+            productsOnPage.map((product) => {
+              return <ProductCard key={product.id} product={product} />;
+            })
+          ) : (
+            <Card
+              style={{
+                width: "100%",
+                height: "41vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              No Products!
+            </Card>
+          )}
         </Card.Group>
       </Container>
       <PaginationWrapper
