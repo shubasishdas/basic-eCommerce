@@ -1,0 +1,19 @@
+:global(#app) {
+  .grid_row {
+    display: flex;
+    justify-content: space-between;
+
+    &_first_item {
+      width: fit-content;
+    }
+
+    &_second_item {
+      padding: 0;
+      width: 5rem;
+    }
+    &_total {
+      width: fit-content;
+      font-weight: bold;
+    }
+  }
+}

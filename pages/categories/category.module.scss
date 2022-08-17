@@ -1,0 +1,9 @@
+:global(#app) {
+  .wrapper {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    gap: 20;
+    position: relative;
+  }
+}

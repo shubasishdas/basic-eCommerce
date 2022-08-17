@@ -1,0 +1,24 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Food & Junk"
+    },
+    {
+      "id": 2,
+      "name": "Papers & Stationaries"
+    },
+    {
+      "id": 3,
+      "name": "COVID Special"
+    },
+    {
+      "id": 4,
+      "name": "Hygine & Vaccine"
+    },
+    {
+      "id": 5,
+      "name": "Men's Clothing"
+    }
+  ]
+}

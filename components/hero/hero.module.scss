@@ -1,0 +1,32 @@
+:global(#app) {
+  .hero {
+    &_wrapper {
+      width: 100vw;
+      height: 20vh;
+      background: #6c66e5;
+      position: sticky;
+      top: 0px;
+      z-index: 9999;
+    }
+    &_container {
+      margin: 0;
+      padding: 0px;
+      height: 100%;
+    }
+    &_grid_row {
+      padding: 15px;
+    }
+    &_header {
+      width: fit-content;
+      color: #fff;
+      cursor: pointer;
+    }
+    &_cart {
+      width: fit-content;
+      display: flex;
+      flex-direction: row;
+      color: #fff;
+      font-weight: bold;
+    }
+  }
+}

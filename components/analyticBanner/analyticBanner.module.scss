@@ -1,0 +1,11 @@
+:global(#app) {
+  .banner {
+    &_container {
+      height: 500px;
+      background: lavender;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
